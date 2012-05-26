@@ -9,6 +9,8 @@
 #define	UTIL_H
 
 #include <GL/glut.h>
+#include <vector>
+#include <iostream>
 #include "vector.hpp"
 
 struct Window {
@@ -22,12 +24,19 @@ struct Window {
 struct Surfel {
     vec3d v;            // vertex position
     vec3d n;            // vertex normal
-    float radius;
-    vec3d color;
+    std::vector<const Surfel*> neighbour;
+};
+
+struct Mouse {
+    int x,y;
+    int Dx, Dy;
+    bool buttons[3];
+    float sensitivity;
 };
 
 // create a display list for the xyz axis
 GLuint xyzAxisDL(vec3d center, float size);
+vec3d bestFitPlaneNormal(const std::vector<const Surfel*> verts);
 
 
 #endif	/* UTIL_H */

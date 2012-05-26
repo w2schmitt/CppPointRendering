@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+#define EPS 1.E-7
+
 template<class T>
 struct vec3 {
     T x, y, z;
@@ -26,6 +28,11 @@ struct vec3 {
     {
         return std::sqrt(squaredLength());
     }
+    
+    static vec3<T> up(){ return vec3<T>(0.0, 1.0, 0.0);}
+    static vec3<T> forward(){ return vec3<T>(1.0, 0.0, 0.0);}
+    static vec3<T> null(){ return vec3<T>(0.0, 0.0, 0.0);}
+    
 
     void normalize()
     {
@@ -61,6 +68,8 @@ struct vec3 {
     {
         return (x!=Q.x || y!=Q.y || z!=Q.z);
     }
+    
+    
 };
 
 template<class T>
@@ -123,6 +132,23 @@ vec3<T> cross(const vec3<T>& a, const vec3<T>& b)
 }
 
 
+template<class T>
+T squaredDistance(const vec3<T>& a, const vec3<T>& b){
+    return pow((a.x-b.x),2) + pow((a.y-b.y),2) + pow((a.z-b.z),2);
+}
+
+
+template<class T>
+T distance(const vec3<T>& a, const vec3<T>& b){
+    return sqrt(squaredDistance(a,b));
+}
+
+template<class T>
+bool isNull(const vec3<T>& a){
+    return (fabs(a.x) < EPS) &&
+           (fabs(a.y) < EPS) &&
+           (fabs(a.z) < EPS);
+}
 
 typedef vec3<float> vec3f;
 typedef vec3<double> vec3d;

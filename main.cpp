@@ -16,13 +16,22 @@
 #include "callbacks.h"
 #include "camera/float3.h"
 #include "camera/Camera.h"
-
+#include "mesh.h"
+#include "matrix.h"
 
 // ------------------ GLOBALS
 Window mainWin;                 // Hold window properties
+Mouse mouse;
 Camera camera;
+Mesh mesh(0.008f);
 
 GLuint axisDL = 0;              // axis display list ID
+char filename[255] = "models/fullsphere.txt";
+
+// opengl light settings
+GLfloat lightDir[] = {1.0, 0.5, 1.0, 0};
+GLfloat lightDiffuse[] = {0.6, 0.6, 0.6, 1.0f};
+GLfloat lightAmbient[] = {0.2, 0.2, 0.2, 1.0f};
 
 
 int main(int argc, char** argv) {
@@ -47,12 +56,10 @@ int main(int argc, char** argv) {
     // callbacks
     glutDisplayFunc(render);
     glutReshapeFunc(reshape);
-    glutSpecialFunc(specialKeys);
-    
-    glutMouseFunc((GLUTmousebuttonfun)TwEventMouseButtonGLUT);
-    glutMotionFunc((GLUTmousemotionfun)TwEventMouseMotionGLUT);
+    glutSpecialFunc(specialKeys);    
+    glutMouseFunc(mouseFunc);
+    glutMotionFunc(mouseMotion);
     glutPassiveMotionFunc((GLUTmousemotionfun)TwEventMouseMotionGLUT);
-    
     
     bar = TwNewBar("TweakBar");  
     twGUI(bar);

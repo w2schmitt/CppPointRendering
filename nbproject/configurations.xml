@@ -5,6 +5,8 @@
                    displayName="Arquivos de cabeçalho"
                    projectFiles="true">
       <itemPath>callbacks.h</itemPath>
+      <itemPath>matrix.h</itemPath>
+      <itemPath>mesh.h</itemPath>
       <itemPath>util.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -21,11 +23,21 @@
       </logicalFolder>
       <itemPath>callbacks.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>matrix.cpp</itemPath>
+      <itemPath>mesh.cpp</itemPath>
       <itemPath>util.cpp</itemPath>
+      <itemPath>vector.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Arquivos de recurso"
                    projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="models" displayName="models" projectFiles="true">
+      <itemPath>models/cat10.10000.txt</itemPath>
+      <itemPath>models/fullsphere.txt</itemPath>
+      <itemPath>models/head.12772.txt</itemPath>
+      <itemPath>models/mechpart.4102.txt</itemPath>
+      <itemPath>models/teapot.26103.txt</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Arquivos de testes"
@@ -41,6 +53,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>camera</Elem>
+    <Elem>models</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

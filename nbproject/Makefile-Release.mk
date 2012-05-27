@@ -39,7 +39,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/camera/Camera.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/mesh.o \
-	${OBJECTDIR}/matrix.o \
 	${OBJECTDIR}/camera/opengl.o \
 	${OBJECTDIR}/callbacks.o
 
@@ -92,11 +91,6 @@ ${OBJECTDIR}/mesh.o: mesh.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/mesh.o mesh.cpp
-
-${OBJECTDIR}/matrix.o: matrix.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/matrix.o matrix.cpp
 
 ${OBJECTDIR}/camera/opengl.o: camera/opengl.cpp 
 	${MKDIR} -p ${OBJECTDIR}/camera

@@ -17,7 +17,7 @@
 #include "camera/float3.h"
 #include "camera/Camera.h"
 #include "mesh.h"
-#include "matrix.h"
+#include "matrix.hpp"
 
 // ------------------ GLOBALS
 Window mainWin;                 // Hold window properties
@@ -36,6 +36,21 @@ GLfloat lightAmbient[] = {0.2, 0.2, 0.2, 1.0f};
 
 int main(int argc, char** argv) {
 
+    /* MATRIX TEST*/
+    double p[9] = {1,5,2, 3,4,2, 8,1,1};
+    Matrix<double> e(3,p);
+    Matrix<double> f(3,p);    
+
+    
+    //Matrix<double> m(3,e);
+    
+    std::cout << (e+f);
+   //Matrix<double>::identity(3);
+    
+    
+    /* END TEST*/
+    return 0;
+    
     // Pointer to the tweak bar
     TwBar *bar; 
     

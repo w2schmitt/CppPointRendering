@@ -5,7 +5,6 @@
                    displayName="Arquivos de cabeçalho"
                    projectFiles="true">
       <itemPath>callbacks.h</itemPath>
-      <itemPath>matrix.h</itemPath>
       <itemPath>mesh.h</itemPath>
       <itemPath>util.h</itemPath>
     </logicalFolder>
@@ -23,7 +22,7 @@
       </logicalFolder>
       <itemPath>callbacks.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
-      <itemPath>matrix.cpp</itemPath>
+      <itemPath>matrix.hpp</itemPath>
       <itemPath>mesh.cpp</itemPath>
       <itemPath>util.cpp</itemPath>
       <itemPath>vector.hpp</itemPath>

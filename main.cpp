@@ -17,7 +17,7 @@
 #include "camera/float3.h"
 #include "camera/Camera.h"
 #include "mesh.h"
-#include "matrix.hpp"
+
 
 // ------------------ GLOBALS
 Window mainWin;                 // Hold window properties
@@ -26,7 +26,7 @@ Camera camera;
 Mesh mesh(0.008f);
 
 GLuint axisDL = 0;              // axis display list ID
-char filename[255] = "models/fullsphere.txt";
+char filename[255] = "models/teapot.26103.txt";
 
 // opengl light settings
 GLfloat lightDir[] = {1.0, 0.5, 1.0, 0};
@@ -36,23 +36,7 @@ GLfloat lightAmbient[] = {0.2, 0.2, 0.2, 1.0f};
 
 int main(int argc, char** argv) {
 
-    /* MATRIX TEST*/
-    double p[9] = {1,5,2, 3,4,2, 8,1,1};
-    Matrix<double> e(3,p);
-    Matrix<double> f(3,p);    
-
-    
-    //Matrix<double> m(3,e);
-    
-    std::cout << (e+f);
-   //Matrix<double>::identity(3);
-    
-    
-    /* END TEST*/
-    return 0;
-    
-    // Pointer to the tweak bar
-    TwBar *bar; 
+    TwBar *bar;;
     
     // Initialize glut/glew/Anttweakbar/etc...
     glutInit(&argc, argv);
@@ -66,7 +50,7 @@ int main(int argc, char** argv) {
       std::cerr << "[ERROR] "<< glewGetErrorString(glewStatus)<<std::endl;
     }
     
-    TwInit(TW_OPENGL, NULL);   
+    TwInit(TW_OPENGL, NULL);
     
     // callbacks
     glutDisplayFunc(render);

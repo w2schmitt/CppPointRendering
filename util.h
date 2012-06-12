@@ -12,6 +12,7 @@
 #include <vector>
 #include <iostream>
 #include "vector.hpp"
+#include "matrix.hpp"
 
 struct Window {
     GLuint id;
@@ -37,6 +38,7 @@ struct Mouse {
 // create a display list for the xyz axis
 GLuint xyzAxisDL(vec3d center, float size);
 vec3d bestFitPlaneNormal(const std::vector<const Surfel*> verts);
+vec3d leastVarianceDirection(const std::vector<const Surfel*> verts);
 
 
 #endif	/* UTIL_H */

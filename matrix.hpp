@@ -12,8 +12,10 @@
 // NOTE:  all matrices handled here must be SQUARE 
 
 #include <iostream>
-#include <cmath>
+#include <math.h>
 #include <string.h>
+#include "vector.hpp"
+#include <cassert>
 
 using namespace std;
 
@@ -202,11 +204,24 @@ D trace(){
 }
 
 
-void eigenvalues(double* eig){
+void eigenvalues(double* eigval, double* eigvec){
     int msize = getActualSize();
     
     if (msize==3 && isSymmetric()){
-        _eig3Symmetric(eig);
+        //std::cout << "teste" << std::endl;
+        _eig3Symmetric(eigval);
+        double b[3] = {0,0,0};
+        
+        //(*this - Matrix<D>::identity(3)*eigval[0])._solve(b.eig)
+        double max = 100000;
+        for (int i=0; i<3; i++){
+            if (eigval[i] < max){
+                max = eigval[i];
+            }           
+        }
+        //std::cout << max << std::endl;
+        (*this - Matrix<D>::identity(3)*max)._solve(b,eigvec);
+        //std::cout << eigvec[0] << std::endl;
         return;
     }
     //eigenvalues
@@ -217,8 +232,10 @@ void eigenvalues(double* eig){
 bool isSymmetric(){
     for (int i=0; i<getActualSize(); ++i){
         for (int j=0; j<getActualSize(); j++){
+            //std::cout << (*this)(i,j) << " " << (*this)(j,i) << std::endl;
             if (i==j) continue;
-            if ((*this)(i,j) != (*this)(j,i)) return false;
+            double value = (*this)(i,j)-(*this)(j,i);
+            if ( fabs(value) > EPS) return false;
         }
     }
     
@@ -310,26 +327,31 @@ void invert() {
 
 
 double determinant(){
-    D **a = NULL ;
-    a = new D*[actualsize];
-    //a = (D **) malloc(actualsize* sizeof(D *)) ;
-
-    for (int i = 0 ; i < actualsize ; i++)
-        a[i] = new D[actualsize];
+    int n = getActualSize();
+    D **a = new D*[n];
+    assert(a != NULL);
+    
+    for (int i = 0 ; i < n ; i++){
+        a[i] = new D[n];
+        assert(a[i] != NULL);
+    }
+        //a[i] = (D*)malloc(n*sizeof(D));        
         //a[i] = (D *) malloc(actualsize* sizeof(D)) ;
 
-    D value;
+    double value;
     bool success;
-    for (int i = 0 ; i < actualsize ; i++){
-        for (int j = 0; j < actualsize; j++){
-            getvalue(i,j,value,success);
-            a[i][j] = value;
+    for (int i = 0 ; i < n ; i++){
+        for (int j = 0; j < n; j++){
+            //getvalue(i,j,value,success);
+            a[i][j] = (*this)(i,j);
         }
     }
 
-    double det = _determinant(a,actualsize);
+    double det = _determinant(a,n);
+    //double det = 10.;
+    //std::cout << det << std::endl;
 
-    for (int i = 0 ; i < actualsize ; i++) delete[] a[i];
+    for (int i = 0 ; i < n ; i++) delete[] a[i];
     delete[] a;
     // compute determinant recursively
     return det;
@@ -339,7 +361,7 @@ double determinant(){
 
 
 
-friend std::ostream& operator<<(std::ostream& o, Matrix<D> &m)
+friend std::ostream& operator<<(std::ostream& o, const Matrix<D> &m)
 {
     o << "[";
     int size = m.getActualSize();
@@ -355,11 +377,11 @@ friend std::ostream& operator<<(std::ostream& o, Matrix<D> &m)
 
 
 static Matrix<D> identity(int msize){
-    D* values = new D[msize];
+    D* values = new D[msize*msize];
     for (int i=0; i<msize; i++){
         for (int j=0; j<msize; j++){
-            if (i==j) values[i*msize+j] = 1;
-            else values[i+msize+j] = 0;
+            if (i==j) values[i*msize+j] = (D)1;
+            else values[i+msize+j] = (D)0;
         }
     }
     
@@ -373,7 +395,7 @@ static Matrix<D> identity(int msize){
 Matrix<D> operator+(const Matrix<D> &m) const{
     Matrix<D> result = *this;
     int msize = m.getActualSize();
-    //std::cout << result.getActualSize() << std::endl;
+
     if (msize == result.getActualSize()){
         for (int i=0; i<msize*msize; ++i){
             result.setValue(i, result.getValue(i) + m.getValue(i));
@@ -387,15 +409,18 @@ Matrix<D> operator+(const Matrix<D> &m) const{
 
 
 Matrix<D> operator-(const Matrix<D> &m) const{
+    Matrix<D> result = *this;
     int msize = m.getActualSize();
+    
     if (msize == getActualSize()){
-        for (int i=0; i<msize; ++i){
-            data[i] -= m.getValue(i);
+        for (int i=0; i<msize*msize; ++i){
+            result.setValue(i, result.getValue(i) - m.getValue(i));
         }
     }
     else {
         std::cout << "[ERROR] Operation of incompatible Matrix size!" << std::endl;
     }
+    return result;
 }
 
 
@@ -422,10 +447,19 @@ Matrix<D> operator*(const Matrix<D> &m) const{
 }
 
 
-Matrix<D> operator*(double scalar) const{
-    Matrix<D> result(maxsize);
-    for (int i=0; i<getActualSize()*getActualSize(); ++i){
-        result.setValue(i, scalar*getValue(i));
+friend Matrix<D> operator*(double scalar, const Matrix<D> &m){
+    Matrix<D> result(m);
+    for (int i=0; i< m.getActualSize()*m.getActualSize(); ++i){
+        result.setValue(i, scalar*result.getValue(i));
+    }
+    
+    return result;
+}
+
+friend Matrix<D> operator*(const Matrix<D> &m, double scalar){
+    Matrix<D> result(m);
+    for (int i=0; i< m.getActualSize()*m.getActualSize(); ++i){
+        result.setValue(i, scalar*result.getValue(i));
     }
     
     return result;
@@ -433,13 +467,13 @@ Matrix<D> operator*(double scalar) const{
 
 
 D operator()(int row, int col) const{
-    int index = row*maxsize + col;
+    int index = row*getActualSize() + col;
     return getValue(index);
 } 
 
 
 D &operator()(int row, int col){
-    int index = row*maxsize + col;
+    int index = row*getActualSize() + col;
     return this->data[index];
 }
 
@@ -486,84 +520,140 @@ void _createMatrix(int n, const D* d){
     }
 }
 
+ 
+    
+void swapLine(int _i, int _j){
+    int nsize = this->getActualSize();
+    D aux = 0;
+    //std::cout << "before: "<< *this << std::endl;
+    for (int k=0; k<nsize; ++k){
+        aux = (*this)(_i,k);
+        (*this)(_i,k) = (*this)(_j,k);
+        (*this)(_j,k) = aux;
+        
+    }
+    
+    //std::cout << "after: "<< *this << std::endl;
+}
+
+void swap(D* vec, int _i, int _j){
+    
+    D aux = 0;
+    aux = vec[_i];
+    vec[_i] = vec[_j];
+    vec[_j] = aux;
+}
+
+Matrix<D> _solve(D* b, D* sol){
+    //std::cout << EPS << std::endl;
+    Matrix<D> A = *this;
+    int n = A.getActualSize();
+    
+    for (int i=0; i<n-1; i++){
+        for (int j=i+1; j<n; j++){
+            // find another pivot
+            if (fabs(A(i,i))<1.E-4){
+                A(i,i)=0;
+                bool found = false;
+                for (int k=j; k<n; k++){
+                    if (fabs(A(k,i))>1.E-4){
+                        A.swapLine(i,k);
+                        swap(b,i,k);
+                        found = true;
+                        break;
+                    }                     
+                }     
+                if (!found) continue;
+            }
+
+            double mult = -A(j,i)/A(i,i);
+            for (int k=i; k<n; k++){
+                A(j,k) = mult*A(i,k)  + A(j,k);
+            }
+            b[j] = mult*b[i] + b[j];  
+        }
+    }
+    
+    //std::cout << A << std::endl;
+    // RETRO SUBSTITUITION with free var    
+    for (int i=n-1; i>=0; --i){
+        for (int j=i+1; j<n+1; ++j){
+            if (fabs(A(i,j-1))<1.E-4){     
+                A(i,j-1)=0;
+                sol[j-1] = 1;
+                if ((j-1)>=n-1) break;
+                continue;
+            }
+            for (int k=j; k<n; k++)
+                b[i] = b[i] - A(i,k)*sol[k];
+            sol[j-1] = b[i]/A(i,j-1);
+            break;
+        }
+    }
+    
+    return A;    
+}
+
 //Given symmetric 3x3 matrix M, compute the eigenvalues
 void _eig3Symmetric(double *eig){  
-    //Matrix<D>::identity(3);
+    //std::cout << "-" << std::endl;
+    //std::cout << "fuck\n";
     
-    /*
-    double m = trace()/3.0;
-    //Matrix<D> K = (*this)- identity(3)*m;
-  
+    double m = trace()/3.0;    
+    Matrix<D> K = (*this) - Matrix<D>::identity(3)*m;
     double q = K.determinant()/2;
     
     double p = 0;
     for (int i=0; i<3; ++i){
         for (int j=0; j<3; ++j){
-            p = p + K(i,j)*K(i,j);
+            p += K(i,j)*K(i,j);
         }
     }
-    p = p/6;
-
-    double phi = (1/3)*acos(pow( q/p, 3/2 ));
+    p = p/6.0;
+    assert(p>=0);
+    //std::cout << p << std::endl;
+    double phi = (1./3.)*acos(q/pow( p, 3./2. ));
     
-    if(abs(q) >= abs(pow(p, 3/2))){
+    if(fabs(q) >= abs(pow(p, 3./2.))){
         phi = 0;
     }
 
     if(phi<0){
-        phi=phi+M_PI/3;
-    }
-    
+        phi+=M_PI/3.;
+    }    
     
     eig[0] = m + 2*sqrt(p)*cos(phi);
     eig[1] = m - sqrt(p)*(cos(phi) + sqrt(3)*sin(phi));
     eig[2] = m - sqrt(p)*(cos(phi) - sqrt(3)*sin(phi));
-     */
 }
 
 
-double _determinant(D **a, int n)
+double _determinant(double **a, int n)
 {
     int i,j,j1,j2 ;                    // general loop and matrix subscripts
     double det = 0 ;                   // init determinant
-    D **m = NULL ;                // pointer to pointers to implement 2d
-
-    // square array
-
 
     if (n < 1)    {   }                // error condition, should never get here
 
     else if (n == 1) {                 // should not get here
         det = a[0][0] ;
         }
-
     else if (n == 2)  {                // basic 2X2 sub-matrix determinate
                                     // definition. When n==2, this ends the
         det = a[0][0] * a[1][1] - a[1][0] * a[0][1] ;// the recursion series
-        }
-
-
-                                    // recursion continues, solve next sub-matrix
+        }                                    // recursion continues, solve next sub-matrix
     else {                             // solve the next minor by building a
                                     // sub matrix
         det = 0 ;                      // initialize determinant of sub-matrix
-
                                         // for each column in sub-matrix
-        for (j1 = 0 ; j1 < n ; j1++) {
-                                        // get space for the pointer list
-            m = new D*[n-1];
+        for (j1 = 0 ; j1 < n ; j1++) {// get space for the pointer list
+            D **m =  new D*[n-1] ;
 
+            //double **m = (double**) malloc((n-1)*sizeof(double*));
             for (i = 0 ; i < n-1 ; i++)
+                //m[i] = (double*) malloc((n-1)*sizeof(double));
                 m[i] = new D[n-1];
-                    //     i[0][1][2][3]  first malloc
-                    //  m -> +  +  +  +   space for 4 pointers
-                    //       |  |  |  |          j  second malloc
-                    //       |  |  |  +-> _ _ _ [0] pointers to
-                    //       |  |  +----> _ _ _ [1] and memory for
-                    //       |  +-------> _ a _ [2] 4 doubles
-                    //       +----------> _ _ _ [3]
-                    //
-                    //                   a[1][2]
+
                     // build sub-matrix with minor elements excluded
             for (i = 1 ; i < n ; i++) {
                 j2 = 0 ;               // start at first sum-matrix column position
@@ -586,7 +676,7 @@ double _determinant(D **a, int n)
 
             for (i = 0 ; i < n-1 ; i++) {delete[] m[i];}// free the storage allocated to
                                             // to this minor's set of pointers
-            delete[] m ;                       // free the storage for the original
+            delete [] m;                       // free the storage for the original
                                             // pointer to pointer
         }
     }

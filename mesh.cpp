@@ -92,9 +92,11 @@ void Mesh::computeNormals(){
         //for (int i=0; i<surfels[j].neighbour.size(); ++i)
         //    std::cout << squaredDistance(surfels[j].v,surfels[j].neighbour[i]->v) << std::endl;
         //std::cout << std::endl;
-        surfels[j].n = bestFitPlaneNormal(surfels[j].neighbour);
+        //surfels[j].n = bestFitPlaneNormal(surfels[j].neighbour);
+        surfels[j].n = leastVarianceDirection(surfels[j].neighbour);
     }
 }
+
 
 void Mesh::drawSurfel(Surfel s, GLenum primitive){
     

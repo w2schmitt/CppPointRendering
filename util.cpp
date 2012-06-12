@@ -54,3 +54,48 @@ vec3d bestFitPlaneNormal(const std::vector<const Surfel*> verts){
 
     return normal;
 }
+int coutn=0;
+vec3d leastVarianceDirection(const std::vector<const Surfel*> verts){
+     unsigned int nverts = verts.size();
+     
+     vec3d centroid(0,0,0);
+     for(unsigned int i=0; i<nverts; ++i) {
+         centroid = centroid + verts[i]->v;
+     }
+     centroid.x = centroid.x/nverts;
+     centroid.y = centroid.y/nverts;
+     centroid.z = centroid.z/nverts;
+     
+     double p[9] = {0,0,0,0,0,0,0,0,0};
+     Matrix<double> r(3,p);
+     //Matrix<double> t(3,p);
+     for (int i=0; i<nverts; ++i){
+         vec3d v = verts[i]->v - centroid;
+         double p1[9] = {v.x*v.x, v.x*v.y, v.x*v.z,  v.y*v.x, v.y*v.y, v.y*v.z, v.z*v.x, v.z*v.y, v.z*v.z};
+         r = r + Matrix<double>(3,p1);
+         //r = r + t;
+     }
+     
+     double eig[3] = {0,0,0};
+     double eigvec[3] = {0,0,0};
+     
+    //std::cout << r << std::endl;
+     r.eigenvalues(eig,eigvec);
+     //std::cout << coutn++ << std::endl;
+     //vec3d normal(1,1,1);
+     vec3d normal(eigvec[0], eigvec[1], eigvec[2]);
+     if (normal.length()< 1.E-5){
+         normal = bestFitPlaneNormal(verts);
+         //std::cout << normal << std::endl;
+     }
+     normal.normalize();
+     //std::cout << normal << std::endl;
+     
+     
+     //if (normal.length()< 1.E-5){
+         //std::cout << normal << std::endl;
+     //}
+     //std::cout << normal << std::endl;
+     return normal;
+}
+

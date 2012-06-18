@@ -79,17 +79,12 @@ vec3d leastVarianceDirection(const std::vector<const Surfel*> verts){
      double eig[3] = {0,0,0};
      double eigvec[3] = {0,0,0};
      
-    //std::cout << r << std::endl;
      r.eigenvalues(eig,eigvec);
-     //std::cout << coutn++ << std::endl;
-     //vec3d normal(1,1,1);
      vec3d normal(eigvec[0], eigvec[1], eigvec[2]);
-     if (normal.length()< 1.E-5){
-         normal = bestFitPlaneNormal(verts);
-         //std::cout << normal << std::endl;
+     if (normal.length()< 1.E-12){
+         std::cout << normal << std::endl;
      }
      normal.normalize();
-     //std::cout << normal << std::endl;
      
      
      //if (normal.length()< 1.E-5){

@@ -61,6 +61,8 @@ void mouseFunc(int button, int state, int x, int y){
 
 }
 
+double phi = 0.25;
+
 void mouseMotion(int x, int y){
     if (TwEventMouseMotionGLUT(x,y)){        
         return;
@@ -70,13 +72,16 @@ void mouseMotion(int x, int y){
     mouse.Dy = mouse.y - y;
     
     // rotate camera 
-    if (mouse.buttons[0]){        
-        camera.lookLefRigObj(mouse.Dx*mouse.sensitivity);
-        camera.lookUpDownObj(mouse.Dy*mouse.sensitivity);
+    if (mouse.buttons[0]){    
+        //camera.setSphericCoords(10, phi, 1.25);
+        //phi+=0.005;
+        //camera.lookLefRigObj(mouse.Dx*mouse.sensitivity);
+        //camera.lookUpDownObj(mouse.Dy*mouse.sensitivity);
+        camera.rotateAroundObj(mouse.Dx*mouse.sensitivity, mouse.Dy*mouse.sensitivity);
     }
     // zoom camera
     else if (mouse.buttons[2]){
-        camera.MoveFrente(mouse.Dy*mouse.sensitivity);
+        //camera.MoveFrente(mouse.Dy*mouse.sensitivity);
     }
     
     // update mouse coords
@@ -101,7 +106,7 @@ void reshape(int w, int h){
     TwWindowSize(w, h);
 
     //gluPerspective(45, (double)w/h, 0.5, 1000);
-    camera.setPerspec(45, (double)w/h, 0.1, 250);
+    camera.setPerspective(45, (double)w/h, 0.1, 250);
 
     // Get Back to the Modelview
     glMatrixMode(GL_MODELVIEW); 
@@ -110,8 +115,9 @@ void reshape(int w, int h){
 void render(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    camera.update();	
-    camera.lookAt();
+    //camera.update();	
+    //camera.lookAt();
+    camera.update();
     
     glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
 

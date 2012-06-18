@@ -381,7 +381,7 @@ static Matrix<D> identity(int msize){
     for (int i=0; i<msize; i++){
         for (int j=0; j<msize; j++){
             if (i==j) values[i*msize+j] = (D)1;
-            else values[i+msize+j] = (D)0;
+            else values[i*msize+j] = (D)0;
         }
     }
     
@@ -552,11 +552,11 @@ Matrix<D> _solve(D* b, D* sol){
     for (int i=0; i<n-1; i++){
         for (int j=i+1; j<n; j++){
             // find another pivot
-            if (fabs(A(i,i))<1.E-4){
+            if (fabs(A(i,i))<1.E-12){
                 A(i,i)=0;
                 bool found = false;
                 for (int k=j; k<n; k++){
-                    if (fabs(A(k,i))>1.E-4){
+                    if (fabs(A(k,i))>1.E-12){
                         A.swapLine(i,k);
                         swap(b,i,k);
                         found = true;
@@ -578,7 +578,7 @@ Matrix<D> _solve(D* b, D* sol){
     // RETRO SUBSTITUITION with free var    
     for (int i=n-1; i>=0; --i){
         for (int j=i+1; j<n+1; ++j){
-            if (fabs(A(i,j-1))<1.E-4){     
+            if (fabs(A(i,j-1))<1.E-12){     
                 A(i,j-1)=0;
                 sol[j-1] = 1;
                 if ((j-1)>=n-1) break;

@@ -8,9 +8,6 @@
 #ifndef MESH_H
 #define	MESH_H
 
-#define DEG_TO_RAD 0.01745329238
-#define RAD_TO_DEG 57.29578
-
 #include <vector>
 #include <algorithm>
 #include <fstream>

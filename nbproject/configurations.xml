@@ -11,19 +11,13 @@
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de código-fonte"
                    projectFiles="true">
-      <logicalFolder name="camera" displayName="camera" projectFiles="true">
-        <itemPath>camera/Camera.cpp</itemPath>
-        <itemPath>camera/Camera.h</itemPath>
-        <itemPath>camera/float3.cpp</itemPath>
-        <itemPath>camera/float3.h</itemPath>
-        <itemPath>camera/opengl.cpp</itemPath>
-        <itemPath>camera/opengl.h</itemPath>
-        <itemPath>camera/quaternion.h</itemPath>
-      </logicalFolder>
+      <itemPath>GLCam.cpp</itemPath>
+      <itemPath>GLCam.h</itemPath>
       <itemPath>callbacks.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>matrix.hpp</itemPath>
       <itemPath>mesh.cpp</itemPath>
+      <itemPath>quaternion.h</itemPath>
       <itemPath>util.cpp</itemPath>
       <itemPath>vector.hpp</itemPath>
     </logicalFolder>
@@ -75,6 +69,10 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="matrix.hpp" ex="false" tool="3" flavor="0">
+      </item>
+      <item path="vector.hpp" ex="false" tool="3" flavor="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -95,6 +93,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="matrix.hpp" ex="false" tool="3" flavor="0">
+      </item>
+      <item path="vector.hpp" ex="false" tool="3" flavor="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

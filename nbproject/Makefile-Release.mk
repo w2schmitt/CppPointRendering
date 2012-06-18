@@ -34,12 +34,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/camera/float3.o \
 	${OBJECTDIR}/util.o \
-	${OBJECTDIR}/camera/Camera.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/mesh.o \
-	${OBJECTDIR}/camera/opengl.o \
+	${OBJECTDIR}/GLCam.o \
 	${OBJECTDIR}/callbacks.o
 
 
@@ -67,20 +65,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpppointrendering: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/cpppointrendering ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/camera/float3.o: camera/float3.cpp 
-	${MKDIR} -p ${OBJECTDIR}/camera
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/camera/float3.o camera/float3.cpp
-
 ${OBJECTDIR}/util.o: util.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/util.o util.cpp
-
-${OBJECTDIR}/camera/Camera.o: camera/Camera.cpp 
-	${MKDIR} -p ${OBJECTDIR}/camera
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/camera/Camera.o camera/Camera.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -92,10 +80,10 @@ ${OBJECTDIR}/mesh.o: mesh.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/mesh.o mesh.cpp
 
-${OBJECTDIR}/camera/opengl.o: camera/opengl.cpp 
-	${MKDIR} -p ${OBJECTDIR}/camera
+${OBJECTDIR}/GLCam.o: GLCam.cpp 
+	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/camera/opengl.o camera/opengl.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/GLCam.o GLCam.cpp
 
 ${OBJECTDIR}/callbacks.o: callbacks.cpp 
 	${MKDIR} -p ${OBJECTDIR}

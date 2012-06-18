@@ -8,6 +8,9 @@
 #ifndef UTIL_H
 #define	UTIL_H
 
+#define DEG_TO_RAD 0.01745329238
+#define RAD_TO_DEG 57.29578
+
 #include <GL/glut.h>
 #include <vector>
 #include <iostream>

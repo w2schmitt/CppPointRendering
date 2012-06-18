@@ -15,11 +15,13 @@
 #include "util.h"
 #include "mesh.h"
 #include "vector.hpp"
-#include "camera/float3.h"
-#include "camera/Camera.h"
+#include "GLCam.h"
+
+//#include "camera/float3.h"
+//#include "camera/Camera.h"
 
 extern Window mainWin; 
-extern Camera camera;
+extern GLCam camera;
 extern Mouse mouse;
 extern Mesh mesh;
 

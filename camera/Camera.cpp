@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// classe para manipulação de uma câmera sintética
+// classe para manipulaï¿½ï¿½o de uma cï¿½mera sintï¿½tica
 // AXES:	N = (at - eye)
 //			U = up
 //			V = N * U
@@ -183,6 +183,12 @@ void Camera::MoveCimaBaixoObj(float fValor) {//walk on U
 	afEye -= afUp *fValor;
 }
 //-----------------------------------------------------------------------------LOOK LEFT RIGHT OBJ
+void Camera::lookLefRigObj(float alpharad){
+    
+}
+
+
+/*
 // rotaciona a camera em torno de UP (u)
 void Camera::lookLefRigObj(float alpharad) {
 	afAt = (mx+mn)/2.0f;//look at the center of the scene
@@ -192,7 +198,7 @@ void Camera::lookLefRigObj(float alpharad) {
 	quaternion q ( cos(-alpharad/2.0f), sin(-alpharad/2.0f), afUp);//eixo
 	quaternion v (0, v0);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*
-	afEye = afAt - v.q;//olho fixo, at = olho + direção
+	afEye = afAt - v.q;//olho fixo, at = olho + direï¿½ï¿½o
 	
 	v =quaternion(0, afUp);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*	
@@ -200,6 +206,7 @@ void Camera::lookLefRigObj(float alpharad) {
 }
 //-----------------------------------------------------------------------------LOOK VERTICAL OBJ
 // rotaciona a camera em torno de v ( n cross u )
+
 void Camera::lookUpDownObj(float alpharad) {
 	afAt = (mx+mn)/2.0f;//look at the center of the scene
 	float3 v0 = (afAt - afEye);	
@@ -209,12 +216,13 @@ void Camera::lookUpDownObj(float alpharad) {
 	quaternion q ( cos(-alpharad/2.0f), sin(-alpharad/2.0f), v1);//eixo
 	quaternion v (0, v0);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*
-	afEye = afAt - v.q;//olho fixo, at = olho + direção
+	afEye = afAt - v.q;//olho fixo, at = olho + direï¿½ï¿½o
 	
 	v =quaternion(0, afUp);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*	
 	afUp = v.q+ float3(0,1,0); afUp.normalize();
 }
+*/
 //-----------------------------------------------------------------------------LOOK LEFT RIGHT
 // rotaciona a camera em torno de UP (u)
 void Camera::lookLefRig(float alpharad) {
@@ -225,7 +233,7 @@ void Camera::lookLefRig(float alpharad) {
 	quaternion q ( cos(-alpharad/2.0f), sin(-alpharad/2.0f), afUp);//eixo
 	quaternion v (0, v0);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*
-	afAt = afEye + v.q;//olho fixo, at = olho + direção
+	afAt = afEye + v.q;//olho fixo, at = olho + direï¿½ï¿½o
 	
 	v =quaternion(0, afUp);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*	
@@ -241,7 +249,7 @@ void Camera::lookUpDown(float alpharad) {
 	quaternion q ( cos(-alpharad/2.0f), sin(-alpharad/2.0f), v1);//eixo
 	quaternion v (0, v0);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*
-	afAt = afEye + v.q;//olho fixo, at = olho + direção
+	afAt = afEye + v.q;//olho fixo, at = olho + direï¿½ï¿½o
 	
 	v =quaternion(0, afUp);//vetor a ser rotacionado
 	v = (q.cross(v)).cross( q.cconju() );// q v q*	

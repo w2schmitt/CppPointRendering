@@ -81,7 +81,7 @@ void mouseMotion(int x, int y){
     }
     // zoom camera
     else if (mouse.buttons[2]){
-        //camera.MoveFrente(mouse.Dy*mouse.sensitivity);
+        camera.translate(0,0,mouse.Dy*mouse.sensitivity);
     }
     
     // update mouse coords
@@ -121,10 +121,11 @@ void render(){
     
     glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
 
-    //glutWireCube(5);
     glCallList(axisDL);
-    mesh.drawMesh(GL_QUADS);
-    //glutSolidSphere(2,16,16);
+    if (!primitive)
+        mesh.drawMesh(GL_QUADS);
+    else
+        mesh.drawMesh(GL_POLYGON);
     
     TwDraw();
     
@@ -136,14 +137,15 @@ void render(){
 void twGUI(TwBar *bar){
     
     TwAddVarRW(bar, "Model path", TW_TYPE_CSSTRING(255), &filename, " group='Model' ");
-    TwAddButton(bar, "Load", loadModel, NULL, " group='Model' ");
+    TwAddVarRW(bar, "Use Normals", TW_TYPE_BOOLCPP, &useNormalsFile, " group='Model' ");
+    TwAddVarRW(bar, "Algorithm", TW_TYPE_BOOLCPP, &usePCA, " group='Model' true='PCA' false='BFP'" );
+    TwAddButton(bar, "Load", loadModel, NULL, " group='Model' ");    
     
-    TwAddVarRW(bar, "Radius", TW_TYPE_FLOAT, &mesh.radius, " group='Surfels' min=0 max=1 step = 0.002 ");
-    TwAddVarRW(bar, "Normal Size", TW_TYPE_FLOAT, &mesh.normalSize, " group='Surfels' min=0 max=1 step = 0.02 ");
-
+    TwAddVarRW(bar, "Radius", TW_TYPE_FLOAT, &mesh.radius, " group='Surfels' min=0 max=20 step = 0.002 ");
+    TwAddVarRW(bar, "Normal Size", TW_TYPE_FLOAT, &mesh.normalSize, " group='Surfels' min=0 max=10 step = 0.02 ");
+    TwAddVarRW(bar, "Surfel", TW_TYPE_BOOLCPP, &primitive, "group='Surfels' true='Circular' false='Quads'");
 }
 
-void TW_CALL loadModel(void*){
-    
-    mesh.loadTxt(filename);
+void TW_CALL loadModel(void*){    
+    mesh.loadTxt(filename, useNormalsFile, usePCA);
 }

@@ -24,10 +24,13 @@
 Window mainWin;                 // Hold window properties
 Mouse mouse;
 GLCam camera(vec3d(10,10,10), vec3d(0,0,0), vec3d(0,1,0));
-Mesh mesh(0.008f);
+Mesh mesh(0.02f);
 
 GLuint axisDL = 0;              // axis display list ID
 char filename[255] = "models/fullsphere.txt";
+bool primitive = false;
+bool useNormalsFile = true;
+bool usePCA = true;
 
 // opengl light settings
 GLfloat lightDir[] = {1.0, 0.5, 1.0, 0};

@@ -552,11 +552,11 @@ Matrix<D> _solve(D* b, D* sol){
     for (int i=0; i<n-1; i++){
         for (int j=i+1; j<n; j++){
             // find another pivot
-            if (fabs(A(i,i))<1.E-12){
+            if (fabs(A(i,i))<1.E-14){
                 A(i,i)=0;
                 bool found = false;
                 for (int k=j; k<n; k++){
-                    if (fabs(A(k,i))>1.E-12){
+                    if (fabs(A(k,i))>1.E-14){
                         A.swapLine(i,k);
                         swap(b,i,k);
                         found = true;
@@ -578,7 +578,7 @@ Matrix<D> _solve(D* b, D* sol){
     // RETRO SUBSTITUITION with free var    
     for (int i=n-1; i>=0; --i){
         for (int j=i+1; j<n+1; ++j){
-            if (fabs(A(i,j-1))<1.E-12){     
+            if (fabs(A(i,j-1))<1.E-14){     
                 A(i,j-1)=0;
                 sol[j-1] = 1;
                 if ((j-1)>=n-1) break;

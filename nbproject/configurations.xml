@@ -26,11 +26,11 @@
                    projectFiles="true">
     </logicalFolder>
     <logicalFolder name="models" displayName="models" projectFiles="true">
-      <itemPath>models/cat10.10000.txt</itemPath>
+      <itemPath>models/cat.txt</itemPath>
       <itemPath>models/fullsphere.txt</itemPath>
-      <itemPath>models/head.12772.txt</itemPath>
-      <itemPath>models/mechpart.4102.txt</itemPath>
-      <itemPath>models/teapot.26103.txt</itemPath>
+      <itemPath>models/head.txt</itemPath>
+      <itemPath>models/mechpart.txt</itemPath>
+      <itemPath>models/teapot.txt</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Arquivos de testes"
@@ -69,10 +69,6 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="matrix.hpp" ex="false" tool="3" flavor="0">
-      </item>
-      <item path="vector.hpp" ex="false" tool="3" flavor="0">
-      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -93,10 +89,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="matrix.hpp" ex="false" tool="3" flavor="0">
-      </item>
-      <item path="vector.hpp" ex="false" tool="3" flavor="0">
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>

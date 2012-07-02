@@ -10,9 +10,11 @@
 
 #include <vector>
 #include <algorithm>
+#include <iostream>
 #include <fstream>
 #include <GL/glut.h>
 #include <math.h>
+#include <assert.h>
 
 #include "util.h"
 
@@ -28,7 +30,7 @@ public:
     
     std::vector<Surfel> surfels;
     
-    void loadTxt(char* filename);
+    void loadTxt(char* filename, bool useNormals, bool usePCA);
     void loadObj(char* filename);
     
     void drawMesh(GLenum primitive);
@@ -36,7 +38,7 @@ public:
 private:
     void clear();
     void drawSurfel(Surfel s, GLenum primitive);
-    void computeNormals();
+    void computeNormals(bool usePCA, char *filename);
     
 };
 

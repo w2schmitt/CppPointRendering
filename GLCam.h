@@ -31,9 +31,10 @@ public:
     
     void update();
     
-    //CAMERA ROTATION
+    //CAMERA
     void rotateAroundObj(double _dx, double _dy);
     void rotateXYZ(double _alphaX, double _alphaY, double _alphaZ);
+    void translate(double _dx, double _dy, double _dz);
     
     //GETS
     vec3d getPos()      { return pos;}

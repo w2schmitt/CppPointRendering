@@ -9,8 +9,8 @@
 
 GLCam::GLCam(vec3d _pos, vec3d _lookAt, vec3d _up) {
     // perspective properties
-    zNear = 0.1;
-    zFar = 1000;
+    zNear = 1;
+    zFar = 15000;
     fov = 45;
     aspect = 1;
     
@@ -46,41 +46,28 @@ void GLCam::setPerspective(double _fov, double _aspect, double _zNear, double _z
     update();
 }
 
-void GLCam::rotateAroundObj(double _dx, double _dy){
-       
-    //vec3d spher = _cartesian2spherical(pos);
+void GLCam::rotateAroundObj(double _dx, double _dy){   
     
-    //spher.y -= _dy;
-    //spher.z += _dx;
-
-    //vec3d vecPos = -pos;
-    //vec3d vecNewPos = -_spherical2Cartesian(spher);
+    //ROTATION IN U and V AXIS
+    Quaternion rotU(cos(0.5*_dy),sin(0.5*_dy)*u);
+    Quaternion rotV(cos(-0.5*_dx),sin(-0.5*_dx)*v);
     
-    //vecPos.normalize();
-    //vecNewPos.normalize();
-    //u.normalize();
-    Quaternion rotU(_dy,u);
-    Quaternion rotV(_dx,v);
+    //COMBINE TWO ROTATIONS
+    Quaternion rotUV = rotU*rotV;    
     
-    Quaternion vecPos(0,-pos);
-    
-    Quaternion p1 = rotU*vecPos*rotU.conj();
-    pos = -p1.q;
-    
-    std::cout << sin(_dy) << std::endl;
-    
-    
-    //double angle = acos(dot(vecPos, vecNewPos));
-    //vec3d axis = cross(vecPos, vecNewPos);    
-    
-    //Quaternion q1;
-    //q1 = q1.toAngleAxis(angle,axis);
-    
-    //Quaternion result = q1*Quaternion(0,-pos)*q1.conj();
-    //pos = -result.q;
-    //std::cout << pos << std::endl;
+    //APPLY ROTATION
+    Quaternion vecPos(0,-pos);    
+    Quaternion resultVec = rotUV*vecPos*rotUV.conj();
+    pos = -resultVec.q;
+   
     _updateCamAxis();
+}
 
+void GLCam::translate(double _dxU, double _dyV, double _dzN){
+    
+    vec3d v = -pos; //get direction
+    pos += v*_dzN;
+    
 }
 
 void GLCam::rotateXYZ(double _alphaX, double _alphaY, double _alphaZ){

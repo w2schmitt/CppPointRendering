@@ -1,4 +1,4 @@
-# 2000 Random points on the surface
+<pre><p># 2000 Random points on the surface
 # of a <a class="resource autolink" title="Sphere" href="http://moodle.inf.ufrgs.br/mod/resource/view.php?r=24129" >sphere</a>
 # Author: Marcelo Walter
 
@@ -2002,3 +2002,4 @@ v -0.49634 0.24239 0.83360
 v -0.49634 0.24239 -0.83360
 v 0.62063 0.78297 0.04210
 v 0.62063 0.78297 -0.04210
+</p></pre>

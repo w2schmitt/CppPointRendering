@@ -81,8 +81,9 @@ vec3d leastVarianceDirection(const std::vector<const Surfel*> verts){
      
      r.eigenvalues(eig,eigvec);
      vec3d normal(eigvec[0], eigvec[1], eigvec[2]);
-     if (normal.length()< 1.E-12){
-         std::cout << normal << std::endl;
+     if (normal.length()< 1.E-14){
+         //std::cout << normal << std::endl;
+         normal = vec3d(0,1,0);
      }
      normal.normalize();
      

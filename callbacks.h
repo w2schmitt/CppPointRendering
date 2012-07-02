@@ -31,6 +31,9 @@ extern GLfloat lightAmbient[];
 
 extern GLuint axisDL;
 extern char filename[255];
+extern bool primitive;
+extern bool useNormalsFile;
+extern bool usePCA;
 
 void initialize();
 int terminate(void);
